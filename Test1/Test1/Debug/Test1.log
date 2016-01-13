@@ -1,4 +1,4 @@
-﻿Compilación iniciada a las 12/1/2016 11:22:12.
+﻿Compilación iniciada a las 13/1/2016 2:00:21.
      1>Proyecto "C:\Users\Lucho93\documents\visual studio 2013\Projects\Test1\Test1\Test1.vcxproj" en el nodo 2 (Build destinos).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Principal.cpp
@@ -11,4 +11,4 @@
 
 Compilación correcta.
 
-Tiempo transcurrido 00:00:00.86
+Tiempo transcurrido 00:00:00.78

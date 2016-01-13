@@ -165,6 +165,75 @@ void menuPolinomios(int opMenu1){
 }
 
 void multiplicarMatrices(){
-	cout << ":v \n";
+	//cout << ":v \n"<<endl;
+	//_getch();
+	int m, n, f, c, i, j, k;
+	float A[100][100], B[100][100], C[100][100];
+	cout<<"\n---------------------------------------------------"<<endl;
+	cout<<"\nINGRESE LA FILA Y COLUMNA DE LA PRIMERA MATRIZ"<<endl;
+	cout << "Fila: ";
+	cin>>m;
+	cout << "Columna: ";
+	cin>>n;
+	cout<<"\n---------------------------------------------------"<<endl;
+	cout<<"\nINGRESE LA FILA Y COLUMNA DE LA SEGUNDA MATRIZ"<<endl;
+	cout << "Fila: ";
+	cin>>f;
+	cout << "Columna: ";
+	cin>>c;
+	cout<<endl;
+	if (n == f)
+	{
+		cout<<"\n---------------------------------------------------"<<endl;
+		cout<<"INGRESE EL VALOR DE LA PRIMERA MATRIZ"<<endl;
+		cout<<endl;
+		//INGRESE LAS MATRICES
+		for (i = 1; i <= m; i++)
+		for (j = 1; j <= n; j++)
+		{
+			cout<<"A("<<i<<","<<j<<")= ";
+			cin>>A[i][j];
+		}
+
+		cout<<endl;
+		cout<<"\n---------------------------------------------------"<<endl;
+		cout<<"\nINGRESE EL VALOR DE LA SEGUNDA MATRIZ"<<endl;
+		cout << endl;
+		for (i = 1; i <= f; i++)
+		for (j = 1; j <= c; j++)
+		{
+			cout << "B(" << i << "," << j << ")= ";
+			cin >> B[i][j];
+		}
+		//OPERACION DE MULTIPLICACION
+		for (i = 1; i <= m; i++)
+		{
+			for (j = 1; j <= c; j++)
+			{
+				C[i][j] = 0;
+				for (k = 1; k <= n; k++)
+				{
+					C[i][j] = C[i][j] + A[i][k] * B[k][j];
+				}
+			}
+		}
+		cout<<"\n---------------------------------------------------"<<endl;
+		cout<<"\nLA MULTIPLICACION DE LAS MATRICES ES: "<<endl;
+		cout << endl;
+		//IMPRESION
+		for (i = 1; i <= m; i++)
+		for (j = 1; j <= c; j++)
+		{
+			cout<<"C("<<i<<","<<j<<")="<<C[i][j]<<"\t";
+		}
+	}
+	else
+	{
+		cout<<"\n_________________________________________"<<endl;
+		cout<<"Estas matrices no se pueden multiplicar "<<endl;
+		cout<<"debido a que el numero de columnas de la"<<endl;
+		cout<<"matriz A es diferente al numero de filas"<<endl;
+		cout<<"de la matriz B, !Vuelva a intentarlo!   "<<endl;
+	}
 	_getch();
 }
