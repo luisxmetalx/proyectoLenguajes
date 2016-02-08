@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 #define M_PI 3.14159265358979323846 /* pi */
+#define	TwoPi  6.28318530717958648
+const double eps=1e-14;
 
 void mostrarMenuPrincipal();
 void menuPrincipal();
@@ -13,6 +15,9 @@ void menuVolumenes(int opMenu1);
 void menuPolinomios(int opMenu1);
 void multiplicarMatrices();
 int validar_Numero(char numero[]);//valida si es digito ingrsando una cadena
+int SolveP3(double *x,double a,double b,double c);
+void PolinomioGrado2();
+void PolinomioGrado3();
 
 void main() {
 	menuPrincipal();
@@ -167,11 +172,13 @@ void menuPolinomios(int opMenu1) {
 	fflush(stdin);	cin >> opMenuPol;	fflush(stdin);
 	switch (opMenuPol) {
 	case(1) :
-
+		PolinomioGrado2();
+		_getch();
 		opMenuPol = -1;
 		break;
 	case(2) :
-
+		PolinomioGrado3();
+		_getch();
 		opMenuPol = -1;
 		break;
 	case(3) :
@@ -345,4 +352,102 @@ int validar_Numero(char numero[]){
 		}
 	}
 	return sw;
+}
+
+// x - array of size 3
+// In case 3 real roots: => x[0], x[1], x[2], return 3
+//         2 real roots: x[0], x[1],          return 2
+//         1 real root : x[0], x[1] ± i*x[2], return 1
+int SolveP3(double *x,double a,double b,double c) {	// solve cubic equation x^3 + a*x^2 + b*x + c
+	double a2 = a*a;
+    double q  = (a2 - 3*b)/9; 
+	double r  = (a*(2*a2-9*b) + 27*c)/54;
+    double r2 = r*r;
+	double q3 = q*q*q;
+	double A,B;
+    if(r2<q3) {
+        double t=r/sqrt(q3);
+		if( t<-1) t=-1;
+		if( t> 1) t= 1;
+        t=acos(t);
+        a/=3; q=-2*sqrt(q);
+        x[0]=q*cos(t/3)-a;
+        x[1]=q*cos((t+TwoPi)/3)-a;
+        x[2]=q*cos((t-TwoPi)/3)-a;
+        return(3);
+    } else {
+        A =-pow(fabs(r)+sqrt(r2-q3),1./3); 
+		if( r<0 ) A=-A;
+		B = A==0? 0 : B=q/A;
+
+		a/=3;
+		x[0] =(A+B)-a;
+        x[1] =-0.5*(A+B)-a;
+        x[2] = 0.5*sqrt(3.)*(A-B);
+		if(fabs(x[2])<eps) { x[2]=x[1]; return(2); }
+        return(1);
+    }
+}
+
+void PolinomioGrado2(){
+	int a=0,b=0,c=0;
+	float deter=-1.0;
+	float x1=-1.0, x2=-1.0;
+	float preal = 0.0, pim = 0.0;
+	while(a<1.0){
+		cout << " Ingrese el valor de a: "; fflush(stdin);
+		cin >> (a); fflush(stdin);
+	}
+	cout << " Ingrese el valor de b: "; 
+	cin >> (b); 
+	cout << " Ingrese el valor de c: "; 
+	cin >> (c);
+	
+	deter = (b*b)-4*a*c ;
+
+	if( deter >= 0 )
+	{
+		x1 = ( -b + sqrt(deter) )/(2*a);
+		x2 = ( -b - sqrt(deter) )/(2*a);
+		cout << " -> La primera solucion es:  x1 = " << x1 << endl; 
+		cout << " -> La segunda solucion es:  x2 = " << x2 << endl; 
+	}
+	else if( deter == 0 )
+	{
+		x1 = ( -b + sqrt(deter) )/(2*a);
+		cout << " La ecuacion tiene soluciones repetidas "<< endl ;
+		cout << " -> La solucion repetida es:  x1 = x2 = " << x1 << endl ; 
+	}
+	else{
+		deter = deter*(-1);
+		preal = (-b/(2*a));
+		pim = ( sqrt(deter) / (2*a) );
+		
+		cout << " La ecuacion tiene raices complejas \n" << endl; 
+		cout << " -> La primera solucion es:  x1 = " << preal << " + " << pim << " i " << endl; 
+		cout << " -> La segunda solucion es:  x2 = " << preal << " - " << pim << " i " << endl; 
+	}
+}
+
+void PolinomioGrado3(){
+	double a=0,b,c,d,X,Y,Z;
+	double x[3]={0,0,0};
+	double deter;
+	while(a<1.0){	cout << " Ingrese el valor de a: ";		fflush(stdin);	cin >> (a);		fflush(stdin);	}
+	cout << " Ingrese el valor de b: ";		fflush(stdin);	cin >> (b);		fflush(stdin);	
+	cout << " Ingrese el valor de c: ";		fflush(stdin);	cin >> (c);		fflush(stdin);	
+	cout << " Ingrese el valor de d: ";		fflush(stdin);	cin >> (d);		fflush(stdin);	
+	X = b/a;	Y = c/a;	Z=d/a;
+	deter = 18.0*a*b*c*d - 4*b*b*b*d + b*b*c*c - 4.0*a*c*c*c - 27.0*a*a*d*d;
+
+	SolveP3(x,X,Y,Z);
+	if(deter>=0.0){
+		cout << " -> La primera solucion es:  x1 = " << x[0] << endl; 
+		cout << " -> La segunda solucion es:  x2 = " << x[1] << endl; 
+		cout << " -> La tercera solucion es:  x3 = " << x[2] << endl; 
+	}else{
+		cout << " -> La primera solucion es:  x1 = " << x[0] << endl;
+		cout << " -> La segunda solucion es:  x2 = " << x[1] << " + (" << x[2] << ") i " << endl;
+		cout << " -> La tercera solucion es:  x3 = " << x[1] << " - (" << x[2] << ") i " << endl;
+	}
 }
