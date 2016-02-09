@@ -3,10 +3,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
+#include "poly34.h"
 using namespace std;
 #define M_PI 3.14159265358979323846 /* pi */
-#define	TwoPi  6.28318530717958648
-const double eps=1e-14;
 
 void mostrarMenuPrincipal();
 void menuPrincipal();
@@ -15,9 +14,9 @@ void menuVolumenes(int opMenu1);
 void menuPolinomios(int opMenu1);
 void multiplicarMatrices();
 int validar_Numero(char numero[]);//valida si es digito ingrsando una cadena
-int SolveP3(double *x,double a,double b,double c);
 void PolinomioGrado2();
 void PolinomioGrado3();
+void PolinomioGrado4();
 
 void main() {
 	menuPrincipal();
@@ -182,7 +181,8 @@ void menuPolinomios(int opMenu1) {
 		opMenuPol = -1;
 		break;
 	case(3) :
-
+		PolinomioGrado4();
+		_getch();
 		opMenuPol = -1;
 		break;
 	case(4) :
@@ -354,41 +354,6 @@ int validar_Numero(char numero[]){
 	return sw;
 }
 
-// x - array of size 3
-// In case 3 real roots: => x[0], x[1], x[2], return 3
-//         2 real roots: x[0], x[1],          return 2
-//         1 real root : x[0], x[1] ± i*x[2], return 1
-int SolveP3(double *x,double a,double b,double c) {	// solve cubic equation x^3 + a*x^2 + b*x + c
-	double a2 = a*a;
-    double q  = (a2 - 3*b)/9; 
-	double r  = (a*(2*a2-9*b) + 27*c)/54;
-    double r2 = r*r;
-	double q3 = q*q*q;
-	double A,B;
-    if(r2<q3) {
-        double t=r/sqrt(q3);
-		if( t<-1) t=-1;
-		if( t> 1) t= 1;
-        t=acos(t);
-        a/=3; q=-2*sqrt(q);
-        x[0]=q*cos(t/3)-a;
-        x[1]=q*cos((t+TwoPi)/3)-a;
-        x[2]=q*cos((t-TwoPi)/3)-a;
-        return(3);
-    } else {
-        A =-pow(fabs(r)+sqrt(r2-q3),1./3); 
-		if( r<0 ) A=-A;
-		B = A==0? 0 : B=q/A;
-
-		a/=3;
-		x[0] =(A+B)-a;
-        x[1] =-0.5*(A+B)-a;
-        x[2] = 0.5*sqrt(3.)*(A-B);
-		if(fabs(x[2])<eps) { x[2]=x[1]; return(2); }
-        return(1);
-    }
-}
-
 void PolinomioGrado2(){
 	int a=0,b=0,c=0;
 	float deter=-1.0;
@@ -450,4 +415,31 @@ void PolinomioGrado3(){
 		cout << " -> La segunda solucion es:  x2 = " << x[1] << " + (" << x[2] << ") i " << endl;
 		cout << " -> La tercera solucion es:  x3 = " << x[1] << " - (" << x[2] << ") i " << endl;
 	}
+}
+
+void PolinomioGrado4(){
+	double a, b, c, d;
+	double x[4];
+	int res;
+
+	cout << "Polinomio de cuarto grado de la forma: x^4 + a*x^3 + b*x^2 + c*x + d" << endl;
+	cout << "ingrese el valor de a: ";
+	fflush(stdin);
+	cin >> a;
+	fflush(stdin);
+	cout << "ingrese el valor de b: ";
+	fflush(stdin);
+	cin >> b;
+	fflush(stdin);
+	cout << "ingrese el valor de c: ";
+	fflush(stdin);
+	cin >> c;
+	fflush(stdin);
+	cout << "ingrese el valor de d: ";
+	fflush(stdin);
+	cin >> d;
+	fflush(stdin);
+	res = SolveP4(x, a, b, c, d);
+	cout << endl;
+	cout << "-->La primera solucion es: " << x[0] << "\n-->La Segunda solucion es: " << x[1] << "\n-->La Tercera solucion es: " << x[2] << "\n-->La Cuarta solucion es : " << x[3] << endl;
 }
